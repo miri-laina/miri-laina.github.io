@@ -1,0 +1,24 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+	</head>
+	<body >
+		<Header />
+		<main class="bg-white mt-2">
+			<h1 class="text-center text-primary font-bold">¿Tú negocio es la leche?</h1>
+			<h3 class="text-center text-secondary">{SITE_DESCRIPTION}</h3>
+
+			<img src="/ll.jpeg" alt="Lisa Lavigne" class='w-96 object-cover lisa' />
+
+		</main>
+		<Footer />
+	</body>
+</html>
