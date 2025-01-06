@@ -4,23 +4,22 @@ import NotionRenderer from './NotionRender.astro';
 
 const notion = new Client({ auth: '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' });
 
-const { pageId } = Astro.props;
+const { pageId, ref = null } = Astro.props;
 
 let blocks: { [x: number]: { rich_text: any; } | { title: any; } | undefined; type: any; }[] = [];
 let error = null;
 
 try {
   const response = await notion.blocks.children.list({ block_id: pageId });
-  console.log(response)
-  blocks = response.results.map((block) => {
-    const type = (block as { type: any }).type;
-    const richTextKey = block.hasOwnProperty(type) && block[type]?.rich_text ? { rich_text: block[type].rich_text } : undefined;
-
-    return {
-      type,
-      [type]: richTextKey || (block.hasOwnProperty(type) && block[type]?.title ? { title: block[type].title } : undefined),
-    };
-  });
+  blocks = await Promise.all(
+      response.results.map(async (block) => {
+        if (block.type === 'toggle') {
+          const children = await notion.blocks.children.list({ block_id: block.id });
+          block.toggle.children = children.results;
+        }
+        return block;
+      })
+  );
 } catch (err) {
   error = err;
   console.error('Error al obtener el contenido de la página de Notion:', error);
@@ -29,7 +28,25 @@ try {
 ---
 
 {error && <p>Error al cargar el contenido: {(error as Error).message}</p>}
+{!ref && (
+  <div class="py-10 max-w-4xl w-full m-auto flex flex-col gap-6">
+    {blocks?.map((block) => {
+      if (block.type === 'toggle') {
+        return (
+            <div class="rounded-lg border border-gray-200 p-6 flex flex-col items-center justify-center">
+              <p class="text-primary text-2xl font-bold">{block.toggle.rich_text[0].plain_text}</p>
+                <div>
+                {
+                  block.toggle.children.map((child) => {
+                    return <NotionRenderer block={child} />;
+                  })
+                }
+                </div>
+              <hr class="my-4"/>
+            </div>
+        );
+      }
+    })}
+  </div>
+)}
 
-<div class="py-10 max-w-4xl w-full m-auto">
-  <NotionRenderer blocks={blocks} />
-</div>

@@ -1,5 +1,5 @@
 ---
-const { blocks } = Astro.props;
+const { block } = Astro.props;
 
 function renderRichText(richText) {
   return richText.map((text, index) => {
@@ -22,13 +22,12 @@ function renderRichText(richText) {
 
 // Función para renderizar cada tipo de bloque
 function renderBlock(block) {
-  console.log(block);
   switch (block.type) {
     case 'divider':
       return `<hr class="my-4"/>`;
 
     case 'paragraph':
-      return `<p class="mb-4">${renderRichText(block.paragraph.rich_text)}</p>`;
+      return `<p>${renderRichText(block.paragraph.rich_text)}</p>`;
 
     case 'heading_1':
       return `<h1 class="text-3xl font-bold mb-4">${renderRichText(block.heading_1.rich_text)}</h1>`;
@@ -49,7 +48,7 @@ function renderBlock(block) {
       return `<div class="p-4 bg-gray-100 rounded mb-4"><strong>Página:</strong> ${block.child_page.title}</div>`;
 
     case 'image':
-      return `<img src='${block.image}' class="h-20 w-20"/>`;
+      return `<img src='${block.image?.file?.url}' class="w-80"/>`;
 
     default:
       return `<p class="text-red-500">[Bloque no soportado: ${block.type}]</p>`;
@@ -59,9 +58,5 @@ function renderBlock(block) {
 ---
 
 <div class="space-y-4">
-  {blocks && blocks.length > 0 ? (
-    blocks.map((block) => <div set:html={renderBlock(block)} />)
-  ) : (
-    <p>No hay contenido para mostrar.</p>
-  )}
+    <div set:html={renderBlock(block)} />
 </div>

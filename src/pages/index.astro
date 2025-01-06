@@ -2,21 +2,36 @@
 import BaseHead from '../components/BaseHead.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
+import { SITE_TITLE, SITE_DESCRIPTION, RECOMENDATIONS } from '../consts';
+import Recomendation from "../components/Recomendation.astro";
+import Notion from "../components/notion/Notion.astro";
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="fr">
 	<head>
 		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
 	</head>
 	<body >
 		<Header />
-		<main class="bg-white mt-2">
-			<h1 class="text-center text-primary font-bold">¿Tú negocio es la leche?</h1>
-			<h3 class="text-center text-secondary">{SITE_DESCRIPTION}</h3>
+		<main class="bg-white pt-20 mt-2">
+			<section class="flex gap-4 items-center">
+				<img src="/ll.jpeg" alt="Lisa Lavigne" class='w-96 object-cover lisa' />
+				<h3 class="text-end text-4xl font-bold text-secondary">{SITE_DESCRIPTION}</h3>
+			</section>
 
-			<img src="/ll.jpeg" alt="Lisa Lavigne" class='w-96 object-cover lisa' />
+			<section class="my-20">
+				<div class="grid grid-cols-1 gap-4">
+					{RECOMENDATIONS.map((recomendation) => (
+						<Recomendation {...recomendation} />
+					))}
+				</div>
+			</section>
+
+			<section class="my-20">
+				<h2 class="text-center text-4xl font-bold text-secondary">Mon blog</h2>
+				<Notion pageId="1729a94d98e88070b331ddce00aea809" />
+			</section>
 
 		</main>
 		<Footer />
