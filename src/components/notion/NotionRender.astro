@@ -27,7 +27,7 @@ function renderBlock(block) {
       return `<hr class="my-4"/>`;
 
     case 'paragraph':
-      return `<p>${renderRichText(block.paragraph.rich_text)}</p>`;
+      return `<p class="mb-0.5">${renderRichText(block.paragraph.rich_text)}</p>`;
 
     case 'heading_1':
       return `<h1 class="text-3xl font-bold mb-4">${renderRichText(block.heading_1.rich_text)}</h1>`;
@@ -57,6 +57,4 @@ function renderBlock(block) {
 
 ---
 
-<div class="space-y-4">
-    <div set:html={renderBlock(block)} />
-</div>
+<div set:html={renderBlock(block)} />
