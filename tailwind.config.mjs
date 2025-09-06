@@ -9,12 +9,12 @@ export default {
 		  },
 		  colors: {
 			primary: {
-				DEFAULT: '#335C67',
+				DEFAULT: '#234852',
 				100: '#CFE6EC',
 				200: '#ADCBD3',
 				300: '#7CA2AC',
 				400: '#56818C',
-				500: '#335C67',
+				500: '#234852',
 			},
 			secondary: {
 				DEFAULT: '#540B0E',
