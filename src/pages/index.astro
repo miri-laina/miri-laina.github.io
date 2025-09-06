@@ -2,37 +2,30 @@
 import BaseHead from '../components/BaseHead.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import { SITE_TITLE, SITE_DESCRIPTION, RECOMENDATIONS } from '../consts';
-import Recomendation from "../components/Recomendation.astro";
-import Notion from "../components/notion/Notion.astro";
+import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 ---
 
 <!doctype html>
-<html lang="fr">
+<html lang="en">
 	<head>
 		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
 	</head>
-	<body >
+	<body class="bg-primary min-h-screen flex flex-col">
+		<!-- Noise overlay que está por encima de todo -->
+		<div class="noise-overlay"></div>
 		<Header />
-		<main class="bg-white pt-20 mt-2">
-			<section class="flex gap-4 items-center">
-				<img src="/ll.jpeg" alt="Lisa Lavigne" class='w-96 object-cover lisa' />
-				<h3 class="text-end text-4xl font-bold text-secondary">{SITE_DESCRIPTION}</h3>
-			</section>
-
-			<section class="my-20">
-				<div class="grid grid-cols-1 gap-4">
-					{RECOMENDATIONS.map((recomendation) => (
-						<Recomendation {...recomendation} />
-					))}
+		<main class="w-full flex items-center justify-center px-0">
+			<section class="w-full flex flex-col gap-y-3 items-center">
+				<h2 class="md:text-5xl text-3xl font-sans text-accent text-center">hey!</h2>
+				<h1 class=" md:text-6xl text-[40px] font-heading text-accent text-center">i'm cooking up something new</h1>
+				<div class="w-full md:max-w-4xl">
+					<p class="text-accent md:text-lg text-base font-sans text-center">I'm designing my new portfolio and, like any good design, it takes time (and plenty of coffee).</p>
+					<p class="text-accent md:text-lg text-base font-sans text-center">Soon you'll be able to see my projects here, but in the meantime, <strong>feel free to connect with me on 
+						<a href="https://www.linkedin.com/in/miriam-laina-p%C3%A9rez-622956168/" target="_blank" class="text-neutral-300 hover:text-primary-300">LinkedIn</a>
+					or just imagine this site is already amazing.</strong></p>
 				</div>
+				<img src="/logo.svg" alt="Miriam Laina" class="w-[140px] text-accent mt-[120px]" />
 			</section>
-
-			<section class="my-20">
-				<h2 class="text-center text-4xl font-bold text-secondary">Mon blog</h2>
-				<Notion pageId="1729a94d98e88070b331ddce00aea809" />
-			</section>
-
 		</main>
 		<Footer />
 	</body>

@@ -3,24 +3,39 @@ export default {
 	content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
 	theme: {
 		extend: {
-			colors: {
-				primary: {
-					DEFAULT: '#22577A'
-				},
-				secondary: {
-					DEFAULT: '#38A3A5'
-				},
-				tertiary: {
-					DEFAULT: '#57CC99'
-				},
-				quaternary: {
-					DEFAULT: '#80ED99'
-				},
-				quinary: {
-					DEFAULT: '#C7F9CC'
-				}
+		  fontFamily: {
+			sans: ['Outfit', 'sans-serif'],
+			heading: ['Boldfinger', 'sans-serif']
+		  },
+		  colors: {
+			primary: {
+				DEFAULT: '#335C67',
+				100: '#CFE6EC',
+				200: '#ADCBD3',
+				300: '#7CA2AC',
+				400: '#56818C',
+				500: '#335C67',
+			},
+			secondary: {
+				DEFAULT: '#540B0E',
+				100: '#E5BFC1',
+				200: '#CF999B',
+				300: '#A06063',
+				400: '#7E3235',
+				500: '#540B0E'
+			},
+			neutral: {
+				DEFAULT: '#E09F3E',
+				100: '#F9CA84',
+				200: '#ECB35F',
+				300: '#E09F3E'
+			},
+			accent: {
+				DEFAULT: '#FFF3B0',
+				100: '#FFF3B0'
 			}
+		  }
 		}
-	},
+	  },
 	plugins: [],
 }
