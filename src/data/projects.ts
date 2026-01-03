@@ -4,6 +4,7 @@ export interface Project {
 	isSideProject: boolean;
 	title: string;
 	description: string;
+	intro?: string;
 	dateRange?: string;
 	industry?: string;
 	services?: string;
@@ -31,6 +32,7 @@ export const projects: Project[] = [
 		isSideProject: false,
 		title: 'Movistar Prosegur Alarms',
 		description: 'In Movistar Prosegur Alarms I colaborate on the **evolution of the company\'s digital ecosystem**, working on the continuous improvement of the customer experience across key touchpoints.\n\nMy work focused on **designing scalable solutions, aligned with business goals** and aimed at increasing user autonomy, improving product understanding, and driving overall user satisfaction.\n\n**+350K B2C and B2B customers**',
+		intro: 'Designs end to end products, turning user insights and data into seamless experiences with long term impact.',
 		dateRange: '2023 - Present',
 		industry: 'Security',
 		services: 'UX/UI · Communication strategy · Data driven',
@@ -59,6 +61,7 @@ export const projects: Project[] = [
 		isSideProject: false,
 		title: 'Selectra',
 		description: 'Selectra is an international company specialized in the comparison and contracting of essential services such as energy, telecommunications, and insurance.\n\nDuring my time at the company, **I worked across different verticals, from optimizing lead acquisition funnels in telco to designing My Selectra**, a web app focused on customer retention in the energy sector.\n\n**+500K B2C/B2B customers**',
+		intro: 'Collaboration throughout the entire product design cycle across multiple verticals, from lead acquisition to customer retention.',
 		dateRange: '2023',
 		industry: 'Energy & Telco',
 		services: 'UX/UI · Performance analysis · Data driven',
@@ -86,6 +89,7 @@ export const projects: Project[] = [
 		isSideProject: false,
 		title: 'Cupra & SEAT',
 		description: 'CUPRA and SEAT are part of the Volkswagen Group, developing embedded digital products for vehicles where hardware, software, and user experience converge within a highly regulated environment.\n\nI worked on the **design of in car infotainment radios for models launching from 2024 onwards, contributing to production ready interfaces** with direct impact on vehicles shipped to market.\n\n**~439,500 vehicles sold anually**',
+		intro: 'Designed systems for next generation radios, creating scalable design foundations and visual languages.',
 		dateRange: '2022',
 		industry: 'Automative',
 		services: 'UI · Design system',
@@ -113,6 +117,7 @@ export const projects: Project[] = [
 		isSideProject: true,
 		title: 'Imagins',
 		description: 'Imagins is an AI-powered platform that generates personalized children\'s stories with illustrations. Its mission is to foster co creation and quality time between parents and children, teachers and students and peers.\n\nI co-founded the project as CPO, leading product strategy, design, and testing the coherence of AI generated stories during the early refinement phase.',
+		intro: 'AI story generator, create highly customizable illustrated books with an image and text model.',
 		dateRange: '2025',
 		industry: 'Artificial intelligence',
 		services: 'UX/UI · Product strategy · CPO',
@@ -142,6 +147,7 @@ export const projects: Project[] = [
 		isSideProject: true,
 		title: 'Roamrider',
 		description: 'Is a conceptual travel planning platform **designed to centralize all aspects of trip organization in a single app**. Unlike existing fragmented tools for booking flights, accommodations, vehicle rentals, and itinerary planning, Roamrider aims to provide a seamless experience where users can set preferences, manage a budget, compare options, and organize their entire trip from one place.\n\nI conceived and designed the project independently, **focusing on identifying sector gaps and opportunities** and developing the first design concepts.',
+		intro: 'Designed to give riders complete visibility and control over their journey  in one seamless experience.',
 		dateRange: '2024',
 		industry: 'Security',
 		services: 'UX/UI · Communication strategy · Data driven',

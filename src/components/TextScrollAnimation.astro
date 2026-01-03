@@ -1,0 +1,214 @@
+---
+// Componente para la animación de cambio de texto con scroll (reversible)
+---
+
+<script>
+	import { animate } from 'animejs';
+
+	let isAnimating = false;
+	let currentState = 'original'; // 'original' o 'new'
+	let inactivityTimer = null;
+	
+	// Función para cambiar al texto nuevo
+	function changeToNewText() {
+		if (isAnimating || currentState === 'new') return;
+		
+		const textOriginal = document.getElementById('text-original');
+		const textNew = document.getElementById('text-new');
+		
+		if (!textOriginal || !textNew) return;
+		
+		isAnimating = true;
+		currentState = 'new';
+		
+		// Animar texto original: subir y desvanecer
+		animate(textOriginal, {
+			opacity: [1, 0],
+			translateY: [0, -50],
+			duration: 800,
+			ease: 'easeOutCubic',
+		});
+		
+		// Asegurar que el texto nuevo empiece desde abajo
+		textNew.style.transform = 'translateY(50px)';
+		textNew.style.opacity = '0';
+		
+		// Animar texto nuevo: subir desde abajo y aparecer
+		setTimeout(() => {
+			animate(textNew, {
+				opacity: [0, 1],
+				translateY: [50, 0],
+				duration: 800,
+				ease: 'easeOutCubic',
+			});
+			setTimeout(() => {
+				isAnimating = false;
+			}, 800);
+		}, 300);
+	}
+	
+	// Función para reiniciar el temporizador de inactividad
+	function resetInactivityTimer() {
+		// Limpiar el temporizador anterior si existe
+		if (inactivityTimer) {
+			clearTimeout(inactivityTimer);
+		}
+		
+		// Solo iniciar el temporizador si estamos en el estado original
+		if (currentState === 'original') {
+			inactivityTimer = setTimeout(() => {
+				changeToNewText();
+			}, 10000); // 10 segundos
+		}
+	}
+	
+	function handleScroll() {
+		if (isAnimating) return; // Evitar animaciones simultáneas
+		
+		const scrollY = window.scrollY || window.pageYOffset;
+		const scrollThreshold = 10; // Píxeles de scroll para activar el efecto (muy sensible)
+		
+		const textOriginal = document.getElementById('text-original');
+		const textNew = document.getElementById('text-new');
+		
+		if (!textOriginal || !textNew) return;
+		
+		// Determinar qué texto debe mostrarse según el scroll
+		const shouldShowNew = scrollY > scrollThreshold;
+		
+		// Reiniciar el temporizador de inactividad en cada scroll
+		resetInactivityTimer();
+		
+		// Solo animar si el estado cambia
+		if (shouldShowNew && currentState === 'original') {
+			// Limpiar el temporizador ya que el cambio es por scroll
+			if (inactivityTimer) {
+				clearTimeout(inactivityTimer);
+				inactivityTimer = null;
+			}
+			
+			isAnimating = true;
+			currentState = 'new';
+			
+			// Animar texto original: subir y desvanecer
+			animate(textOriginal, {
+				opacity: [1, 0],
+				translateY: [0, -50],
+				duration: 800,
+				ease: 'easeOutCubic',
+			});
+			
+			// Asegurar que el texto nuevo empiece desde abajo
+			textNew.style.transform = 'translateY(50px)';
+			textNew.style.opacity = '0';
+			
+			// Animar texto nuevo: subir desde abajo y aparecer
+			setTimeout(() => {
+				animate(textNew, {
+					opacity: [0, 1],
+					translateY: [50, 0],
+					duration: 800,
+					ease: 'easeOutCubic',
+				});
+				setTimeout(() => {
+					isAnimating = false;
+				}, 800);
+			}, 300);
+			
+		} else if (!shouldShowNew && currentState === 'new') {
+			// Limpiar el temporizador ya que volvemos al texto original
+			if (inactivityTimer) {
+				clearTimeout(inactivityTimer);
+				inactivityTimer = null;
+			}
+			
+			isAnimating = true;
+			currentState = 'original';
+			
+			// Animar texto nuevo: bajar y desvanecer
+			animate(textNew, {
+				opacity: [1, 0],
+				translateY: [0, 50],
+				duration: 800,
+				ease: 'easeOutCubic',
+			});
+			
+			// Asegurar que el texto original empiece desde arriba
+			textOriginal.style.transform = 'translateY(-50px)';
+			textOriginal.style.opacity = '0';
+			
+			// Animar texto original: bajar desde arriba y aparecer
+			setTimeout(() => {
+				animate(textOriginal, {
+					opacity: [0, 1],
+					translateY: [-50, 0],
+					duration: 800,
+					ease: 'easeOutCubic',
+				});
+				setTimeout(() => {
+					isAnimating = false;
+					// Reiniciar el temporizador después de volver al texto original
+					resetInactivityTimer();
+				}, 800);
+			}, 300);
+		}
+	}
+	
+	// Función de inicialización
+	function init() {
+		const scrollY = window.scrollY || window.pageYOffset;
+		const scrollThreshold = 10;
+		
+		const textOriginal = document.getElementById('text-original');
+		const textNew = document.getElementById('text-new');
+		
+		if (textOriginal && textNew) {
+			// Establecer estado inicial según la posición del scroll
+			if (scrollY > scrollThreshold) {
+				currentState = 'new';
+				textOriginal.style.opacity = '0';
+				textOriginal.style.transform = 'translateY(-50px)';
+				textNew.style.opacity = '1';
+				textNew.style.transform = 'translateY(0)';
+			} else {
+				currentState = 'original';
+				textOriginal.style.opacity = '1';
+				textOriginal.style.transform = 'translateY(0)';
+				textNew.style.opacity = '0';
+				textNew.style.transform = 'translateY(50px)';
+			}
+		}
+	}
+	
+	// Escuchar eventos de scroll y wheel para mayor sensibilidad
+	window.addEventListener('scroll', handleScroll, { passive: true });
+	
+	// También escuchar el evento wheel directamente para detectar el primer paso
+	let lastScrollY = window.scrollY || window.pageYOffset;
+	window.addEventListener('wheel', (e) => {
+		const currentScrollY = window.scrollY || window.pageYOffset;
+		// Si hay un cambio mínimo de scroll, activar la verificación
+		if (Math.abs(currentScrollY - lastScrollY) > 0) {
+			lastScrollY = currentScrollY;
+			handleScroll();
+		}
+	}, { passive: true });
+	
+	// Inicializar al cargar
+	if (document.readyState === 'loading') {
+		document.addEventListener('DOMContentLoaded', () => {
+			setTimeout(() => {
+				init();
+				// Iniciar el temporizador de inactividad después de la inicialización
+				resetInactivityTimer();
+			}, 100);
+		});
+	} else {
+		setTimeout(() => {
+			init();
+			// Iniciar el temporizador de inactividad después de la inicialización
+			resetInactivityTimer();
+		}, 100);
+	}
+</script>
+

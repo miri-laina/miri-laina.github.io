@@ -9,6 +9,8 @@ import ProjectLarge from '../components/news/ProjectLarge.astro';
 import SideProjectItem from '../components/news/SideProjectItem.astro';
 import Chips from '../components/news/Chips.astro';
 import BentoGrid from '../components/news/BentoGrid.astro';
+import HeroAnimation from '../components/HeroAnimation.astro';
+import CustomCursor from '../components/CustomCursor.astro';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 import { projects } from '../data/projects';
 
@@ -34,14 +36,16 @@ const sideProjects = projects.filter(p => p.isSideProject);
 					<div class="w-full md:w-[200px]">
 						<Chips variant="outline" text="Product Designer" />
 					</div>
-					<h2 class="text-2xl md:text-h2 font-heading font-bold leading-tight md:leading-[1.2] text-secondary">Merging design, strategy and technology to craft products.</h2>
+					<h2 id="hero-title" class="text-2xl md:text-h2 font-heading font-bold leading-tight md:leading-[1.2] text-secondary">Merging design, strategy and technology to craft products.</h2>
 				</div>
 				<div class="flex flex-col font-bold text-base md:text-sb1 font-sb text-secondary-300">
-					<p>Harnessing technology to make life better.</p>
+					<p id="hero-subtitle">Harnessing technology to make life better.</p>
 				</div>
 			</div>
-			<div class="w-full md:w-[420px] h-[300px] md:h-[420px] flex-shrink-0">
-				<img src="/a.svg" alt="Image Grid" class="w-full h-full object-cover" />
+			<div id="hero-image" class="w-full md:w-[420px] h-[300px] md:h-[420px] flex-shrink-0">
+				<svg id="hero-svg" width="418" height="420" viewBox="0 0 418 420" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full">
+					<path id="hero-path" d="M210 0C323.325 0 415.684 89.7654 419.853 202.071H208V209H420V420H211V419.997C210.667 419.999 210.334 420 210 420C94.0202 420 0 325.98 0 210C0 94.0202 94.0202 0 210 0Z" fill="#0A0908"/>
+				</svg>
 			</div>
 		</section>
 
@@ -72,7 +76,7 @@ const sideProjects = projects.filter(p => p.isSideProject);
 								imageSrc={project.coverImage || '/placeholder-hero.jpg'}
 								category={project.industry || ''}
 								title={project.title}
-								description={project.description.split('\n')[0]}
+								description={project.intro.split('\n')[0]}
 								tags={project.tags || []}
 								slug={project.slug}
 							/>
@@ -106,7 +110,7 @@ const sideProjects = projects.filter(p => p.isSideProject);
 						<SideProjectItem 
 							iconImage={project.iconImage || ''}
 							title={project.title}
-							description={project.description.split('\n')[0]}
+							description={project.intro.split('\n')[0]}
 							slug={project.slug}
 							isLast={index === sideProjects.length - 1}
 						/>
@@ -115,6 +119,9 @@ const sideProjects = projects.filter(p => p.isSideProject);
 			</section>
 		</main>
 
-		<Footer />
-	</body>
+	<Footer />
+
+	<HeroAnimation />
+	<CustomCursor />
+</body>
 </html>

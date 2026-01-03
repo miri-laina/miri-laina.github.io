@@ -51,6 +51,43 @@ body {
 	color: rgb(var(--gray-dark));
 	font-size: 20px;
 	line-height: 1.7;
+	cursor: none; /* Oculta el cursor por defecto */
+}
+
+/* Cursor personalizado */
+.custom-cursor {
+	position: fixed;
+	width: 20px;
+	height: 20px;
+	border-radius: 50%;
+	background-color: #fff;
+	pointer-events: none;
+	z-index: 99999;
+	mix-blend-mode: difference;
+	transform: translate(-50%, -50%);
+	transition: width 0.2s ease-out, height 0.2s ease-out, transform 0.1s ease-out;
+	will-change: transform, width, height;
+}
+
+.custom-cursor.cursor-link {
+	width: 30px;
+	height: 30px;
+	mix-blend-mode: difference;
+}
+
+/* Asegurar que los links no muestren cursor pointer */
+a, a *, button, button * {
+	cursor: none !important;
+}
+
+/* Ocultar cursor en dispositivos táctiles */
+@media (hover: none) and (pointer: coarse) {
+	body {
+		cursor: auto;
+	}
+	.custom-cursor {
+		display: none;
+	}
 }
 
 h1,

@@ -1,0 +1,68 @@
+---
+// Componente para el cursor personalizado circular
+---
+
+<div id="custom-cursor" class="custom-cursor"></div>
+
+<script>
+	// Esperar a que el DOM esté listo
+	if (document.readyState === 'loading') {
+		document.addEventListener('DOMContentLoaded', initCustomCursor);
+	} else {
+		initCustomCursor();
+	}
+
+	function initCustomCursor() {
+		const cursor = document.getElementById('custom-cursor');
+		if (!cursor) return;
+
+		let mouseX = 0;
+		let mouseY = 0;
+		let cursorX = 0;
+		let cursorY = 0;
+
+		// Actualizar posición del mouse
+		document.addEventListener('mousemove', (e) => {
+			mouseX = e.clientX;
+			mouseY = e.clientY;
+
+			// Detectar si estamos sobre un link
+			const elementUnder = document.elementFromPoint(mouseX, mouseY);
+			if (elementUnder) {
+				// Buscar el elemento link más cercano (puede ser el elemento mismo o un padre)
+				const link = elementUnder.closest('a');
+				if (link) {
+					cursor.classList.add('cursor-link');
+				} else {
+					cursor.classList.remove('cursor-link');
+				}
+			}
+		});
+
+		// Animar el cursor para seguir suavemente el mouse
+		function animateCursor() {
+			if (!cursor) return;
+			
+			// Interpolación suave (easing)
+			cursorX += (mouseX - cursorX) * 0.15;
+			cursorY += (mouseY - cursorY) * 0.15;
+
+			cursor.style.left = cursorX + 'px';
+			cursor.style.top = cursorY + 'px';
+
+			requestAnimationFrame(animateCursor);
+		}
+
+		animateCursor();
+
+		// Ocultar cursor cuando el mouse sale de la ventana
+		document.addEventListener('mouseleave', () => {
+			if (cursor) cursor.style.opacity = '0';
+		});
+
+		document.addEventListener('mouseenter', () => {
+			if (cursor) cursor.style.opacity = '1';
+		});
+	}
+</script>
+

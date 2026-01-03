@@ -74,11 +74,23 @@ const descriptionParts = parseBoldText(description);
 		</div>
 		
 		<!-- Ícono de flecha en esquina superior derecha (arrow-up-right) -->
-		<div class="w-12 h-12 flex-shrink-0">
-			<svg class="w-full h-full text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+		<div class="w-12 h-12 flex-shrink-0 arrow-container">
+			<svg class="w-full h-full text-primary arrow-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
 				<path stroke-linecap="round" stroke-linejoin="round" d="M4.5 19.5L19.5 4.5M19.5 4.5H9M19.5 4.5V15" />
 			</svg>
 		</div>
 	</div>
 </a>
 
+<style>
+	a:hover .arrow-icon {
+		transform: rotate(45deg);
+		transition: transform 0.3s ease-out, color 0.3s ease-out;
+		color: #D6CEFE;
+	}
+	
+	.arrow-icon {
+		transform-origin: center;
+		transition: transform 0.3s ease-out, color 0.3s ease-out;
+	}
+</style>

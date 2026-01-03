@@ -1,0 +1,145 @@
+---
+// Componente de script para la animación del hero
+---
+
+<script>
+	import { animate, splitText, stagger } from 'animejs';
+
+	// Esperar a que el DOM esté listo
+	if (document.readyState === 'loading') {
+		document.addEventListener('DOMContentLoaded', initAnimation);
+	} else {
+		// Pequeño delay para asegurar que el DOM esté completamente renderizado
+		setTimeout(initAnimation, 0);
+	}
+
+	function initAnimation() {
+		// Animación del título principal sin texto gris
+		const target = document.getElementById('hero-title');
+		if (target) {
+			// Dividir el texto en palabras
+			const { words } = splitText(target, {
+				words: true
+			});
+
+			// Animar el texto principal
+			animate(words, {
+				opacity: [0, 1],
+				y: ['100%', '0%'],
+				duration: 1500,
+				ease: 'outSine',
+				delay: stagger(200),
+			});
+		}
+
+		// Animación del subtítulo: solo cambio de opacidad después de 1.5s
+		const subtitle = document.getElementById('hero-subtitle');
+		if (subtitle) {
+			// Establecer opacidad inicial a 0
+			subtitle.style.opacity = '0';
+			
+			// Determinar el delay según la ruta actual
+			const currentPath = window.location.pathname;
+			const subtitleDelay = currentPath === '/works' || currentPath === '/works/' ? 600 : 2600;
+			
+			// Animar solo la opacidad después del delay correspondiente
+			setTimeout(() => {
+				animate(subtitle, {
+					opacity: [0, 1],
+					duration: 1200,
+					ease: 'outSine',
+				});
+			}, subtitleDelay);
+		}
+
+		// Animación del SVG: llegar desde abajo con rebote suave
+		// Buscar todos los SVGs con el efecto (puede haber uno en index y otro en works)
+		const heroSvg = document.getElementById('hero-svg');
+		const heroImage = document.getElementById('hero-image');
+		
+		if (heroSvg && heroImage) {
+			// Establecer z-index alto pero menor que el cursor (99999)
+			heroImage.style.position = 'relative';
+			heroImage.style.zIndex = '9999';
+			
+			// Posicionar inicialmente el SVG fuera de la vista (abajo)
+			heroSvg.style.transform = 'translateY(100%)';
+			heroSvg.style.opacity = '0';
+			
+			// Variables para la interacción con el cursor
+			let currentRotateX = 0;
+			let currentRotateY = 0;
+			let targetRotateX = 0;
+			let targetRotateY = 0;
+			let animationComplete = false;
+			
+			// Animar el SVG desde abajo con rebote suave y fluido
+			setTimeout(() => {
+				// Animación suave: llegar desde abajo con un rebote muy sutil
+				animate(heroSvg, {
+					translateY: ['100%', '-5%', '2%', '0%'],
+					opacity: [0, 1, 1, 1],
+					duration: 2000,
+					ease: 'outCubic',
+				});
+				
+				// Activar interacción con cursor después de que termine la animación
+				setTimeout(() => {
+					animationComplete = true;
+				}, 1700);
+			}, 300);
+			
+			// Interacción con el cursor: inclinación suave del SVG
+			document.addEventListener('mousemove', (e) => {
+				if (!animationComplete) return;
+				
+				// Obtener posición y dimensiones del contenedor del SVG
+				const rect = heroImage.getBoundingClientRect();
+				const centerX = rect.left + rect.width / 2;
+				const centerY = rect.top + rect.height / 2;
+				
+				// Calcular distancia del cursor al centro (normalizada)
+				const deltaX = e.clientX - centerX;
+				const deltaY = e.clientY - centerY;
+				
+				// Calcular rotación basada en la posición del cursor
+				// Máximo de X grados de inclinación
+				const maxTilt = 7;
+				const sensitivity = 1; // Factor de sensibilidad
+				
+				// Calcular rotación basada en la distancia relativa al centro
+				// Usar una zona de influencia más amplia para que responda en toda la pantalla
+				const influenceZone = Math.max(rect.width, rect.height) * 1.5;
+				
+				// Normalizar la distancia para que el efecto sea más suave cuando está lejos
+				const normalizedX = deltaX / (influenceZone / 2);
+				const normalizedY = deltaY / (influenceZone / 2);
+				
+				// Aplicar rotación con límites
+				targetRotateY = Math.max(-maxTilt, Math.min(maxTilt, normalizedX * maxTilt * sensitivity));
+				targetRotateX = Math.max(-maxTilt, Math.min(maxTilt, -normalizedY * maxTilt * sensitivity));
+			});
+			
+			// Animar suavemente la rotación del SVG
+			function animateTilt() {
+				if (!animationComplete || !heroSvg) {
+					requestAnimationFrame(animateTilt);
+					return;
+				}
+				
+				// Interpolación suave para movimiento fluido
+				currentRotateX += (targetRotateX - currentRotateX) * 0.1;
+				currentRotateY += (targetRotateY - currentRotateY) * 0.1;
+				
+				// Aplicar transformación manteniendo la posición base
+				heroSvg.style.transform = `perspective(1000px) rotateX(${currentRotateX}deg) rotateY(${currentRotateY}deg)`;
+				
+				requestAnimationFrame(animateTilt);
+			}
+			
+			// Iniciar animación de inclinación
+			animateTilt();
+		}
+	}
+</script>
+

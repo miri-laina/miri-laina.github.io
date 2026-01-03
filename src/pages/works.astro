@@ -4,10 +4,12 @@ import Header from '../components/news/Header.astro';
 import Footer from '../components/news/Footer.astro';
 import SideProjectItem from '../components/news/SideProjectItem.astro';
 import ProjectItem from '../components/news/ProjectItem.astro';
+import CustomCursor from '../components/CustomCursor.astro';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 import { projects } from '../data/projects';
 import BentoGrid from '../components/news/BentoGrid.astro';
 import BentoGridInteriorism from '../components/news/BentoGridInteriorism.astro';
+import HeroAnimation from '../components/HeroAnimation.astro';
 
 const mainProjects = projects.filter(p => !p.isSideProject);
 const sideProjects = projects.filter(p => p.isSideProject);
@@ -24,15 +26,17 @@ const sideProjects = projects.filter(p => p.isSideProject);
 		<main class="w-full flex flex-col">
 			<!-- Hero Section -->
 			<section class="w-full relative min-h-[600px] flex items-end px-16 py-20">
-				<div class="absolute left-0 top-[96px] w-[420px] h-[420px] flex-shrink-0">
-					<img src="/n.svg" alt="Image Grid" class="w-full h-full object-cover" />
+				<div id="hero-image" class="absolute left-0 top-[96px] w-[420px] h-[420px] flex-shrink-0">
+					<svg id="hero-svg" width="420" height="420" viewBox="0 0 420 420" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full">
+						<path d="M210 0C325.98 5.77262e-05 420 94.0203 420 210V420H210V210H201.603V420H0V210C0 94.0203 94.0203 0 210 0Z" fill="white"/>
+					</svg>
 				</div>
 				<div class="w-full flex">
 					<div class="w-1/3 h-[153px]"></div>
 					<div class="flex flex-col gap-4 justify-start ml-48">
-						<h1 class="text-h1 font-heading font-bold text-primary capitalize">Works</h1>
+						<h1 id="hero-title" class="text-h1 font-heading font-bold text-primary capitalize">Works</h1>
 						<div class="px-4">
-							<p class="text-body-md font-body text-primary">
+							<p id="hero-subtitle" class="text-body-md font-body text-primary">
 								How I think, how I solve, and how I care.
 							</p>
 						</div>
@@ -53,7 +57,7 @@ const sideProjects = projects.filter(p => p.isSideProject);
 								category={project.industry || ''}
 								type={project.type}
 								title={project.title}
-								description={project.description.split('\n')[0]}
+								description={project.intro.split('\n')[0]}
 								slug={project.slug}
 							/>
 							{index < mainProjects.length - 1 && <div class="h-px bg-primary w-full"></div>}
@@ -82,7 +86,7 @@ const sideProjects = projects.filter(p => p.isSideProject);
 						<SideProjectItem 
 							iconImage={project.iconImage || ''}
 							title={project.title}
-							description={project.description.split('\n')[0]}
+							description={project.intro.split('\n')[0]}
 							slug={project.slug}
 							isLast={index === sideProjects.length - 1}
 							theme="light"
@@ -105,7 +109,9 @@ const sideProjects = projects.filter(p => p.isSideProject);
 			</section>
 		</main>
 
-		<Footer />
-	</body>
+	<Footer />
+	<HeroAnimation />
+	<CustomCursor />
+</body>
 </html>
 
