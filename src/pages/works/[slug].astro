@@ -26,6 +26,7 @@ const sideProjects = project.isSideProject
 			slug: p.slug,
 			title: p.title,
 			description: p.description.split('\n')[0],
+			intro: p.intro,
 			iconImage: p.iconImage
 		}));
 
@@ -36,6 +37,7 @@ const mainProjects = project.isSideProject
 			slug: p.slug,
 			title: p.title,
 			description: p.description.split('\n')[0],
+			intro: p.intro,
 			iconImage: p.iconImage
 		}))
 	: [];
@@ -45,6 +47,7 @@ const mainProjects = project.isSideProject
 	isSideProject={project.isSideProject}
 	title={project.title}
 	description={project.description}
+	intro={project.intro}
 	dateRange={project.dateRange}
 	industry={project.industry}
 	services={project.services}

@@ -12,6 +12,7 @@ interface Props {
 	iconImage?: string;
 	title: string;
 	description: string;
+	intro?: string;
 	dateRange?: string;
 	industry?: string;
 	services?: string;
@@ -24,17 +25,18 @@ interface Props {
 	role?: string;
 	challenge?: string;
 	solution?: string;
-	dataCards?: Array<{percentage: string, label: string}>;
+	dataCards?: Array<{prefix?: string, number: string, suffix?: string, label: string}>;
 	galleryImages?: string[];
 	galleryTitle?: string;
-	sideProjects?: Array<{slug: string, title: string, description: string, iconImage?: string}>;
-	mainProjects?: Array<{slug: string, title: string, description: string, iconImage?: string}>;
+	sideProjects?: Array<{slug: string, title: string, description: string, intro?: string, iconImage?: string}>;
+	mainProjects?: Array<{slug: string, title: string, description: string, intro?: string, iconImage?: string}>;
 }
 
 const { 
 	isSideProject = false,
 	iconImage,
 	title,
+	intro,
 	description,
 	dateRange,
 	industry,
@@ -110,7 +112,7 @@ function parseBoldText(text: string) {
 		<!-- Header Section -->
 		<section class={`w-full px-4 md:px-16 py-8 md:py-[120px] flex flex-col gap-6 md:gap-14 items-start max-w-[1650px] mx-auto`}>
 			<div class="w-full flex flex-col md:flex-row items-start md:justify-between gap-6 md:gap-12">
-				<div class="flex items-start">
+				<div class="flex flex-col gap-4 items-start">
 					<h1 id="hero-title" class={`text-2xl md:text-h2 font-heading font-bold leading-tight md:leading-[1.2] ${textTertiaryColor}`}>
 						{title.includes(' ') ? (
 							<>
@@ -130,7 +132,7 @@ function parseBoldText(text: string) {
 							</div>
 						)}
 						<div class={`text-body-md font-body ${textTertiaryColor}`}>
-							{description.split('\n').map((para) => {
+							{(intro || description).split('\n').map((para) => {
 								if (!para.trim()) return <p class="mb-0">&nbsp;</p>;
 								const parts = parseBoldText(para);
 								return (
@@ -388,12 +390,24 @@ function parseBoldText(text: string) {
 				<div class="w-full flex flex-col md:flex-row gap-6 md:gap-16 items-center justify-center">
 					<h2 class={`text-2xl md:text-h2 font-heading font-bold ${textColor}`}>Data</h2>
 					<div class="flex gap-4 md:gap-6 flex-wrap justify-center flex-1">
-						{dataCards.map((card) => (
-							<div class={`border-[2.241px] ${dataCardBorderColor} rounded-tl-[8px] rounded-tr-[8px] rounded-bl-[8px] p-3 md:p-4 flex flex-col gap-3 md:gap-4 items-start min-w-[170px] w-fit`}>
-								<p class={`text-h4 font-heading font-bold ${dataCardTextColor}`}>{card.percentage}</p>
-								<p class={`font-body font-semibold text-body-md ${dataCardTextColor}`}>{card.label}</p>
-							</div>
-						))}
+						{dataCards.map((card, index) => {
+							const cardId = `data-card-${index}`;
+							const numberId = `data-number-${index}`;
+							const hasValue = card.number || card.prefix || card.suffix;
+							
+							return (
+								<div id={cardId} class={`border-[2.241px] ${dataCardBorderColor} rounded-tl-[8px] rounded-tr-[8px] rounded-bl-[8px] p-3 md:p-4 flex flex-col gap-3 md:gap-4 items-start min-w-[170px] w-fit`}>
+									{hasValue && (
+										<p class={`text-h4 font-heading font-bold ${dataCardTextColor}`}>
+											<span>{card.prefix || ''}</span>
+											<span id={numberId} data-target={card.number}>0</span>
+											<span>{card.suffix || ''}</span>
+										</p>
+									)}
+									<p class={`font-body font-semibold text-body-md ${dataCardTextColor}`}>{card.label}</p>
+								</div>
+							);
+						})}
 					</div>
 				</div>
 			</section>
@@ -413,7 +427,7 @@ function parseBoldText(text: string) {
 						<SideProjectItem
 							title={sideProject.title}
 							iconImage={sideProject.iconImage || ''}
-							description={sideProject.description}
+							description={sideProject.intro}
 							slug={sideProject.slug}
 							isLast={index === sideProjects.length - 1}
 							theme="dark"
@@ -436,7 +450,7 @@ function parseBoldText(text: string) {
 						<SideProjectItem
 							title={mainProject.title}
 							iconImage={mainProject.iconImage || ''}
-							description={mainProject.description}
+							description={mainProject.intro}
 							slug={mainProject.slug}
 							isLast={index === mainProjects.length - 1}
 							theme="light"
@@ -451,6 +465,103 @@ function parseBoldText(text: string) {
 	<Footer theme={'dark'} />
 	<HeroAnimation />
 	<CustomCursor />
+
+	{dataCards && dataCards.length > 0 && (
+		<script>
+			function animateDataCards() {
+				const dataCards = document.querySelectorAll('[id^="data-number-"]');
+				
+				dataCards.forEach((element) => {
+					const targetValueStr = element.getAttribute('data-target') || '0';
+					const targetValue = parseFloat(targetValueStr);
+					
+					if (isNaN(targetValue) || targetValueStr === '') {
+						// Si no es un número válido, mostrar el valor original
+						element.textContent = targetValueStr;
+						return;
+					}
+					
+					// Establecer valor inicial
+					let startValue = 0;
+					const startTime = performance.now();
+					const duration = 3000; // 3 segundos
+					
+					function animate(currentTime) {
+						const elapsed = currentTime - startTime;
+						const progress = Math.min(elapsed / duration, 1);
+						
+						// Animación lineal (sin easing)
+						// Calcular valor actual
+						const currentValue = startValue + (targetValue - startValue) * progress;
+						
+						// Actualizar el texto
+						if (targetValue % 1 === 0) {
+							// Número entero
+							element.textContent = Math.floor(currentValue).toString();
+						} else {
+							// Número decimal
+							element.textContent = currentValue.toFixed(1);
+						}
+						
+						// Continuar animación si no ha terminado
+						if (progress < 1) {
+							requestAnimationFrame(animate);
+						} else {
+							// Asegurar que termine en el valor exacto
+							element.textContent = targetValue % 1 === 0 
+								? Math.floor(targetValue).toString() 
+								: targetValue.toFixed(1);
+						}
+					}
+					
+					// Iniciar animación
+					requestAnimationFrame(animate);
+				});
+			}
+
+			// Usar Intersection Observer para animar cuando la sección es visible
+			if (document.readyState === 'loading') {
+				document.addEventListener('DOMContentLoaded', () => {
+					setTimeout(() => {
+						const dataSection = document.querySelector('[id^="data-card-"]')?.closest('section');
+						if (dataSection) {
+							const observer = new IntersectionObserver((entries) => {
+								entries.forEach(entry => {
+									if (entry.isIntersecting) {
+										animateDataCards();
+										observer.disconnect();
+									}
+								});
+							}, { threshold: 0.1 });
+							
+							observer.observe(dataSection);
+						} else {
+							// Si no hay observer, animar directamente después de un pequeño delay
+							setTimeout(animateDataCards, 500);
+						}
+					}, 100);
+				});
+			} else {
+				setTimeout(() => {
+					const dataSection = document.querySelector('[id^="data-card-"]')?.closest('section');
+					if (dataSection) {
+						const observer = new IntersectionObserver((entries) => {
+							entries.forEach(entry => {
+								if (entry.isIntersecting) {
+									animateDataCards();
+									observer.disconnect();
+								}
+							});
+						}, { threshold: 0.1 });
+						
+						observer.observe(dataSection);
+					} else {
+						setTimeout(animateDataCards, 500);
+					}
+				}, 100);
+			}
+		</script>
+	)}
 	</body>
 </html>
 

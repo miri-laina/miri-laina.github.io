@@ -18,7 +18,7 @@ export interface Project {
 	role?: string;
 	challenge?: string;
 	solution?: string;
-	dataCards?: Array<{percentage: string, label: string}>;
+	dataCards?: Array<{prefix?: string, number: string, suffix?: string, label: string}>;
 	galleryImages?: string[];
 	galleryTitle?: string;
 	tags?: string[];
@@ -47,10 +47,10 @@ export const projects: Project[] = [
 		solution: 'Through analysis of app usage data and insights gathered from user research, we redefined the information architecture and navigation model.\n\nWe designed a **clearer and more structured experience, focused on surfacing the product\'s key functionalities**, providing access to information, and reducing friction in the most frequent tasks ultimately decreasing dependency on the call center.',
 		learnings: 'This project reinforced **the importance of designing scalable architectures from early stages**, especially in products with growth and integration plans.\n\nContinuous user research proved essential to prioritize strategic decisions, reduce cognitive load, and encourage recurrent app usage.\n\nIt also **highlighted the value of close cross disciplinary collaboration to deliver consistent, high impact experiences.**',
 		dataCards: [
-			{ percentage: '10%', label: 'Call reduction' },
-			{ percentage: '+3pts', label: 'NPS' },
-			{ percentage: '20%', label: 'Load reduction' },
-			{ percentage: '-5%', label: 'Time per session' }
+			{ number: '10', suffix: '%', label: 'Call reduction' },
+			{ prefix: '+', number: '3', suffix: 'pts', label: 'NPS' },
+			{ number: '20', suffix: '%', label: 'Load reduction' },
+			{ prefix: '-', number: '5', suffix: '%', label: 'Time per session' }
 		],
 		tags: ['UX/UI', 'Performance analysis', 'Product strategy', 'Team management', 'Benchmarking', 'Communication strategy', 'Mentoring', 'Data driven', 'Design System'],
 		type: 'App'
@@ -76,9 +76,9 @@ export const projects: Project[] = [
 		solution: 'The solution was to **conceive My Selectra as a centralized energy management hub**, offering a clear, educational, and decision-oriented experience.\n\nUnified dashboard provided visibility into active contracts, monthly spend, and consumption trends, supported by simplified data visualizations and personalized savings tips. The modular design approach ensured scalability and prepared the product for future growth.',
 		learnings: 'This project reinforced the idea that loyalty is driven by real utility. I learned **how to simplify complex information without losing meaning** and to operate at the intersection of business, technology, and user needs, making design decisions aligned with a long-term product vision.',
 		dataCards: [
-			{ percentage: '78%', label: 'Loyalty' },
-			{ percentage: '+6k', label: 'Daily users' },
-			{ percentage: '+180k', label: 'Monthly users' }
+			{ number: '78', suffix: '%', label: 'Loyalty' },
+			{ prefix: '+', number: '6', suffix: 'k', label: 'Daily users' },
+			{ prefix: '+', number: '180', suffix: 'k', label: 'Monthly users' }
 		],
 		tags: ['UX/UI','Performance analysis','Communication strategy','Testing','Design System'],
 		type: 'Webapp'
@@ -104,9 +104,9 @@ export const projects: Project[] = [
 		solution: 'We approached the problem with a system first mindset, prioritizing scalability and reuse over isolated, one off solutions.\n\nI contributed to the evolution of a dedicated in car design system, defining reusable components, layouts, and interaction patterns optimized for automotive contexts. This enabled teams to design and implement screens more efficiently while maintaining consistency across products, brands, and vehicle lines.',
 		learnings: 'Collaborating at scale in a large organization taught me the importance of clear communication, thorough documentation, and shared frameworks.\n\nI learned that a design system is not just a visual toolkit but a strategic asset that ensures scalability and consistency across products. Balancing brand identity, technical feasibility, and user experience is essential, and early alignment with cross functional teams helps prevent downstream redesigns and accelerates the delivery of high quality interfaces.',
 		dataCards: [
-			{ percentage: '+15', label: 'Reusable components' },
-			{ percentage: '100%', label: 'Screens standardized' },
-			{ percentage: '', label: 'High visual & UX consistency' }
+			{ prefix: '+', number: '15', label: 'Reusable components' },
+			{ number: '100', suffix: '%', label: 'Screens standardized' },
+			{ number: '', label: 'High visual & UX consistency' }
 		],
 		tags: ['UX/UI','Team management','Mentoring','Design System'],
 		type: 'Radio'
@@ -132,10 +132,10 @@ export const projects: Project[] = [
 		solution: 'I designed a flexible and modular interface that allowed users to generate, customize, and refine both stories and illustrations seamlessly. **Providing clear workflows that guided users from a simple prompt to fully personalized stories**, ensuring an intuitive experience despite the complexity of AI generated content.\n\nBy iterating closely with the founding team, I refined the MVP to balance creativity, usability, and technical feasibility, turning a blank canvas into a scalable product that encourages collaboration and imaginative storytelling.',
 		learnings: 'Building Imagins taught me **how to navigate entrepreneurship in an emerging AI market**, balancing technical possibilities with user needs.\n\n**I learned to iterate rapidly with minimal resources, align creative vision with technical constraints**, and manage product development in a collaborative, family and friends startup. It reinforced the value of strategy, user centric design, and adaptability when creating a product from a blank canvas.',
 		dataCards: [
-			{ percentage: '+210', label: 'Views per month' },
-			{ percentage: '+23', label: 'Countries' },
-			{ percentage: '+2k', label: 'Stories generated' },
-			{ percentage: '+620', label: 'Sign ups' }
+			{ prefix: '+', number: '210', label: 'Views per month' },
+			{ prefix: '+', number: '23', label: 'Countries' },
+			{ prefix: '+', number: '2', suffix: 'k', label: 'Stories generated' },
+			{ prefix: '+', number: '620', label: 'Sign ups' }
 		],
 		galleryImages: ['/placeholder-gallery-1.jpg', '/placeholder-gallery-2.jpg', '/placeholder-gallery-3.jpg', '/placeholder-gallery-4.jpg'],
 		galleryTitle: 'Interiorism',
@@ -161,9 +161,9 @@ export const projects: Project[] = [
 		solution: 'I developed a scalable UI kit, wireframes, and key screens demonstrating the main functionalities: **personalized onboarding, budget management, flight and accommodation comparison, itinerary planning, vehicle rentals, and dining recommendations**. A pitch deck complemented the designs, clearly presenting the concept, business opportunity, and user experience.',
 		learnings: 'This project reinforced the power of independent discovery and conceptual design. **I honed skills in identifying user needs, prioritizing features, and translating abstract ideas into tangible** visual concepts. It highlighted how thoughtful product strategy and UX design can communicate a vision effectively, even before development.',
 		dataCards: [
-			{ percentage: 'Centralized', label: 'platform' },
-			{ percentage: 'Gap', label: 'Identification' },
-			{ percentage: 'Automation', label: 'Potential' }
+			{ number: '', label: 'Centralized platform' },
+			{ number: '', label: 'Gap identification' },
+			{ number: '', label: 'Automation potential' }
 		],
 		type: 'App'
 	}
