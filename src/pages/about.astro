@@ -48,5 +48,18 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 	<CustomCursor />
 	<HeroAnimation />
 	<TextScrollAnimation />
+	
+	<!-- Script para redirigir a / si la pantalla es pequeña -->
+	<script>
+		// Detectar si es mobile basado en el ancho de pantalla
+		function isMobileWidth() {
+			return window.innerWidth < 768; // md breakpoint de Tailwind
+		}
+		
+		// Si estamos en mobile, redirigir a /
+		if (isMobileWidth()) {
+			window.location.href = '/';
+		}
+	</script>
 </body>
 </html>
