@@ -132,7 +132,7 @@ function parseBoldText(text: string) {
 							</div>
 						)}
 						<div class={`text-body-md font-body ${textTertiaryColor}`}>
-							{(intro || description).split('\n').map((para) => {
+							{(description).split('\n').map((para) => {
 								if (!para.trim()) return <p class="mb-0">&nbsp;</p>;
 								const parts = parseBoldText(para);
 								return (
