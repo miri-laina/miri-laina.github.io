@@ -174,8 +174,8 @@ function parseBoldText(text: string) {
 				</div>
 			</div>
 			{heroImage && (
-				<div class="w-full rounded-xl bg-tertiary-100">
-					<img src={heroImage} alt={title} class="w-full h-full object-cover rounded-xl" />
+				<div class="w-full rounded-[16px] bg-tertiary-100">
+					<img src={heroImage} alt={title} class="w-full h-full object-cover rounded-[16px]" />
 				</div>
 			)}
 		</section>
@@ -329,20 +329,20 @@ function parseBoldText(text: string) {
 				<!-- Images Section - Always 2 images -->
 				{contentImages && contentImages.length >= 2 ? (
 					<div class="w-full max-w-[1500px] flex flex-col md:flex-row gap-4 md:gap-[48px]">
-						<div class="flex-1 rounded-xl bg-tertiary-100">
-							<img src={contentImages[0]} alt={`${title} content 1`} class="w-full h-full object-cover rounded-xl" loading="lazy" decoding="async" />
+						<div class="flex-1 rounded-[16px] bg-tertiary-100">
+							<img src={contentImages[0]} alt={`${title} content 1`} class="w-full h-full object-cover" loading="lazy" decoding="async" />
 						</div>
-						<div class="flex-1 rounded-xl bg-tertiary-100">
-							<img src={contentImages[1]} alt={`${title} content 2`} class="w-full h-full object-cover rounded-xl" loading="lazy" decoding="async" />
+						<div class="flex-1 rounded-[16px] bg-tertiary-100">
+							<img src={contentImages[1]} alt={`${title} content 2`} class="w-full h-full object-cover" loading="lazy" decoding="async" />
 						</div>
 					</div>
 				) : contentImages && contentImages.length === 1 ? (
 					<div class="w-full max-w-[1500px] flex flex-col md:flex-row gap-4 md:gap-[48px]">
-						<div class="flex-1 rounded-xl bg-tertiary-100">
-							<img src={contentImages[0]} alt={`${title} content 1`} class="w-full h-full object-cover rounded-xl" loading="lazy" decoding="async" />
+						<div class="flex-1 rounded-[16px] bg-tertiary-100">
+							<img src={contentImages[0]} alt={`${title} content 1`} class="w-full h-full object-cover" loading="lazy" decoding="async" />
 						</div>
-						<div class="flex-1 rounded-xl bg-tertiary-100">
-							<img src={contentImages[0]} alt={`${title} content 2`} class="w-full h-full object-cover rounded-xl" loading="lazy" decoding="async" />
+						<div class="flex-1 rounded-[16px] bg-tertiary-100">
+							<img src={contentImages[0]} alt={`${title} content 2`} class="w-full h-full object-cover" loading="lazy" decoding="async" />
 						</div>
 					</div>
 				) : null}
@@ -374,11 +374,11 @@ function parseBoldText(text: string) {
 						})}
 					</div>
 				</div>
-				<div class="flex-1  rounded-xl">
+				<div class="flex-1  rounded-[16px]">
 					{learningsImage ? (
-						<img src={learningsImage} alt={`${title} learnings`} class="w-full h-full object-cover rounded-xl" loading="lazy" decoding="async" />
+						<img src={learningsImage} alt={`${title} learnings`} class="w-full h-full object-cover rounded-[16px]" loading="lazy" decoding="async" />
 					) : (
-						<div class="w-full h-full bg-secondary-300 rounded-xl"></div>
+						<div class="w-full h-full bg-secondary-300 rounded-[16px]"></div>
 					)}
 				</div>
 			</section>

@@ -35,7 +35,7 @@ export const projects: Project[] = [
 		intro: 'Designs end to end products, turning user insights and data into seamless experiences with long term impact.',
 		dateRange: '2023 - Present',
 		industry: 'Security',
-		services: 'UX/UI · Communication strategy · Data driven',
+		services: 'Product strategy · Data driven · Design direction ',
 		link: {text: 'App in market', url: 'https://play.google.com/store/apps/details?id=com.prosegur.alarmas'},
 		coverImage: '/projects/prosegur/mpa-cover.svg',
 		heroImage: '/projects/prosegur/mpa.svg',
