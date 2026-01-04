@@ -3,20 +3,63 @@
 ---
 
 <script>
-	import { animate, splitText, stagger } from 'animejs';
-
-	// Esperar a que el DOM esté listo
-	if (document.readyState === 'loading') {
-		document.addEventListener('DOMContentLoaded', initAnimation);
-	} else {
-		// Pequeño delay para asegurar que el DOM esté completamente renderizado
-		setTimeout(initAnimation, 0);
+	// Esperar a que animejs esté cargado antes de importar
+	async function loadAnimejs() {
+		try {
+			const animejs = await import('animejs');
+			return animejs;
+		} catch (error) {
+			console.error('Error cargando animejs:', error);
+			// Fallback: intentar de nuevo después de un delay
+			return new Promise((resolve) => {
+				setTimeout(async () => {
+					try {
+						const animejs = await import('animejs');
+						resolve(animejs);
+					} catch (e) {
+						console.error('Error cargando animejs (segundo intento):', e);
+						resolve(null);
+					}
+				}, 100);
+			});
+		}
 	}
 
-	function initAnimation() {
+	// Función principal de inicialización
+	async function initAnimation() {
+		// Cargar animejs inmediatamente (Astro ya lo tiene en el bundle)
+		// Usar un pequeño delay para asegurar que el módulo esté parseado
+		await new Promise(resolve => {
+			// Intentar cargar inmediatamente
+			import('animejs').then(() => {
+				resolve();
+			}).catch(() => {
+				// Si falla, esperar un poco más (puede estar aún cargando)
+				setTimeout(() => {
+					import('animejs').then(() => {
+						resolve();
+					}).catch(() => {
+						// Último fallback: continuar después de 200ms
+						setTimeout(resolve, 200);
+					});
+				}, 50);
+			});
+		});
+
+		// Importar animejs ahora que sabemos que está disponible
+		const { animate, splitText, stagger } = await import('animejs');
+		
+		// Marcar body como listo para mostrar elementos (esto desbloquea la visibilidad)
+		document.body.classList.add('animejs-ready');
+
+		// Continuar con la animación original (sin cambios)
 		// Animación del título principal sin texto gris
 		const target = document.getElementById('hero-title');
 		if (target) {
+			// Asegurar que el contenedor padre tenga opacidad 1 para que las palabras sean visibles
+			// (las palabras individuales serán animadas por splitText)
+			target.style.opacity = '1';
+			
 			// Dividir el texto en palabras
 			const { words } = splitText(target, {
 				words: true
@@ -140,6 +183,14 @@
 			// Iniciar animación de inclinación
 			animateTilt();
 		}
+	}
+
+	// Esperar a que el DOM esté listo
+	if (document.readyState === 'loading') {
+		document.addEventListener('DOMContentLoaded', initAnimation);
+	} else {
+		// Pequeño delay para asegurar que el DOM esté completamente renderizado
+		setTimeout(initAnimation, 0);
 	}
 </script>
 

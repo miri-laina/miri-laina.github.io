@@ -29,7 +29,7 @@ const sideProjects = projects.filter(p => p.isSideProject);
 				<!-- Header Mobile -->
 				<nav class="bg-white flex h-12 items-center justify-between px-4 py-2 sticky top-0 w-full z-50">
 					<div class="h-6 w-9 relative">
-						<img src="/favicon.svg" alt="Miriam Laina" class="h-full w-auto" />
+						<img src="/favicon.svg" alt="Miriam Laina" class="h-full w-auto" loading="eager" fetchpriority="high" />
 					</div>
 				</nav>
 				
@@ -78,7 +78,7 @@ const sideProjects = projects.filter(p => p.isSideProject);
 							</div>
 							<div class="flex flex-col gap-8 items-start">
 								<div class="h-[52px] w-[203px]">
-									<img src="/logo.svg" alt="Miriam Laina" class="h-full w-auto brightness-0 invert" />
+									<img src="/logo.svg" alt="Miriam Laina" class="h-full w-auto brightness-0 invert" loading="eager" />
 								</div>
 								<p class="font-body text-[14px] leading-[100%] text-secondary-100">
 									Miriam Laina © {new Date().getFullYear()}

@@ -20,11 +20,69 @@ const { title, description, image = '/favicon.svg' } = Astro.props;
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 <meta name="generator" content={Astro. generator} />
 
-<!-- Font preloads -->
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Kalnia:wght@400;600;700&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=NeueMontereal:wght@400;600;700&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<!-- Preload recursos críticos -->
+<link rel="preload" href="/favicon.svg" as="image" type="image/svg+xml" />
+<link rel="preload" href="/logo.svg" as="image" type="image/svg+xml" />
+
+<style is:global>
+	/* Ocultar elementos animados hasta que animejs esté listo */
+	/* Esto previene el "flash" de contenido sin animar */
+	#hero-title,
+	#hero-subtitle,
+	#hero-svg,
+	#text-original,
+	#text-new {
+		opacity: 0;
+		visibility: hidden;
+		transition: opacity 0.1s ease-in, visibility 0.1s ease-in;
+	}
+	
+	/* Cuando animejs esté listo, permitir que las animaciones controlen la opacidad */
+	body.animejs-ready #hero-title,
+	body.animejs-ready #hero-subtitle,
+	body.animejs-ready #hero-svg,
+	body.animejs-ready #text-original,
+	body.animejs-ready #text-new {
+		visibility: visible;
+		/* Remover la restricción de opacity para que las animaciones puedan controlarla */
+		opacity: unset;
+	}
+</style>
+
+<!-- Fallback de seguridad: mostrar elementos después de 3 segundos si animejs no carga -->
+<script is:inline>
+	(function() {
+		// Timeout de seguridad: mostrar elementos después de 3 segundos máximo
+		setTimeout(function() {
+			if (!document.body.classList.contains('animejs-ready')) {
+				// Si después de 3 segundos animejs no está listo, mostrar elementos de todas formas
+				document.body.classList.add('animejs-ready');
+				// Mostrar elementos sin animación como fallback
+				const elements = document.querySelectorAll('#hero-title, #hero-subtitle, #hero-svg, #text-original, #text-new');
+				elements.forEach(function(el) {
+					if (el) {
+						el.style.opacity = '1';
+						el.style.visibility = 'visible';
+					}
+				});
+			}
+		}, 3000);
+	})();
+</script>
+
+<!-- Font preloads - Optimizado con font-display: swap para carga rápida -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+<link href="https://fonts.googleapis.com/css2?family=Kalnia:wght@400;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+<link href="https://fonts.googleapis.com/css2?family=NeueMontereal:wght@400;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+<noscript>
+	<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+	<link href="https://fonts.googleapis.com/css2?family=Kalnia:wght@400;600;700&display=swap" rel="stylesheet" />
+	<link href="https://fonts.googleapis.com/css2?family=NeueMontereal:wght@400;600;700&display=swap" rel="stylesheet" />
+	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
+</noscript>
 <link rel="preload" href="/fonts/Boldfinger.ttf" as="font" type="font/ttf" crossorigin />
 
 <!-- Canonical URL -->

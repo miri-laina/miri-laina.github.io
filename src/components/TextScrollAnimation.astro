@@ -3,15 +3,33 @@
 ---
 
 <script>
-	import { animate } from 'animejs';
-
+	// Variable para almacenar la función animate
+	let animate = null;
 	let isAnimating = false;
 	let currentState = 'original'; // 'original' o 'new'
 	let inactivityTimer = null;
 	
+	// Cargar animejs de forma asíncrona
+	async function loadAnimejs() {
+		if (animate) return animate;
+		
+		try {
+			const animejs = await import('animejs');
+			animate = animejs.animate;
+			return animate;
+		} catch (error) {
+			console.error('Error cargando animejs:', error);
+			return null;
+		}
+	}
+	
 	// Función para cambiar al texto nuevo
-	function changeToNewText() {
+	async function changeToNewText() {
 		if (isAnimating || currentState === 'new') return;
+		
+		// Asegurar que animejs esté cargado
+		const animateFn = await loadAnimejs();
+		if (!animateFn) return;
 		
 		const textOriginal = document.getElementById('text-original');
 		const textNew = document.getElementById('text-new');
@@ -22,7 +40,7 @@
 		currentState = 'new';
 		
 		// Animar texto original: subir y desvanecer
-		animate(textOriginal, {
+		animateFn(textOriginal, {
 			opacity: [1, 0],
 			translateY: [0, -50],
 			duration: 800,
@@ -34,16 +52,19 @@
 		textNew.style.opacity = '0';
 		
 		// Animar texto nuevo: subir desde abajo y aparecer
-		setTimeout(() => {
-			animate(textNew, {
-				opacity: [0, 1],
-				translateY: [50, 0],
-				duration: 800,
-				ease: 'easeOutCubic',
-			});
-			setTimeout(() => {
-				isAnimating = false;
-			}, 800);
+		setTimeout(async () => {
+			const animateFn = await loadAnimejs();
+			if (animateFn) {
+				animateFn(textNew, {
+					opacity: [0, 1],
+					translateY: [50, 0],
+					duration: 800,
+					ease: 'easeOutCubic',
+				});
+				setTimeout(() => {
+					isAnimating = false;
+				}, 800);
+			}
 		}, 300);
 	}
 	
@@ -62,8 +83,12 @@
 		}
 	}
 	
-	function handleScroll() {
+	async function handleScroll() {
 		if (isAnimating) return; // Evitar animaciones simultáneas
+		
+		// Asegurar que animejs esté cargado
+		const animateFn = await loadAnimejs();
+		if (!animateFn) return;
 		
 		const scrollY = window.scrollY || window.pageYOffset;
 		const scrollThreshold = 10; // Píxeles de scroll para activar el efecto (muy sensible)
@@ -91,7 +116,7 @@
 			currentState = 'new';
 			
 			// Animar texto original: subir y desvanecer
-			animate(textOriginal, {
+			animateFn(textOriginal, {
 				opacity: [1, 0],
 				translateY: [0, -50],
 				duration: 800,
@@ -103,16 +128,19 @@
 			textNew.style.opacity = '0';
 			
 			// Animar texto nuevo: subir desde abajo y aparecer
-			setTimeout(() => {
-				animate(textNew, {
-					opacity: [0, 1],
-					translateY: [50, 0],
-					duration: 800,
-					ease: 'easeOutCubic',
-				});
-				setTimeout(() => {
-					isAnimating = false;
-				}, 800);
+			setTimeout(async () => {
+				const animateFn = await loadAnimejs();
+				if (animateFn) {
+					animateFn(textNew, {
+						opacity: [0, 1],
+						translateY: [50, 0],
+						duration: 800,
+						ease: 'easeOutCubic',
+					});
+					setTimeout(() => {
+						isAnimating = false;
+					}, 800);
+				}
 			}, 300);
 			
 		} else if (!shouldShowNew && currentState === 'new') {
@@ -126,7 +154,7 @@
 			currentState = 'original';
 			
 			// Animar texto nuevo: bajar y desvanecer
-			animate(textNew, {
+			animateFn(textNew, {
 				opacity: [1, 0],
 				translateY: [0, 50],
 				duration: 800,
@@ -138,24 +166,34 @@
 			textOriginal.style.opacity = '0';
 			
 			// Animar texto original: bajar desde arriba y aparecer
-			setTimeout(() => {
-				animate(textOriginal, {
-					opacity: [0, 1],
-					translateY: [-50, 0],
-					duration: 800,
-					ease: 'easeOutCubic',
-				});
-				setTimeout(() => {
-					isAnimating = false;
-					// Reiniciar el temporizador después de volver al texto original
-					resetInactivityTimer();
-				}, 800);
+			setTimeout(async () => {
+				const animateFn = await loadAnimejs();
+				if (animateFn) {
+					animateFn(textOriginal, {
+						opacity: [0, 1],
+						translateY: [-50, 0],
+						duration: 800,
+						ease: 'easeOutCubic',
+					});
+					setTimeout(() => {
+						isAnimating = false;
+						// Reiniciar el temporizador después de volver al texto original
+						resetInactivityTimer();
+					}, 800);
+				}
 			}, 300);
 		}
 	}
 	
 	// Función de inicialización
-	function init() {
+	async function init() {
+		// Cargar animejs antes de inicializar
+		await loadAnimejs();
+		
+		// Marcar body como listo para mostrar elementos (si aún no está marcado)
+		if (!document.body.classList.contains('animejs-ready')) {
+			document.body.classList.add('animejs-ready');
+		}
 		const scrollY = window.scrollY || window.pageYOffset;
 		const scrollThreshold = 10;
 		
@@ -196,19 +234,18 @@
 	
 	// Inicializar al cargar
 	if (document.readyState === 'loading') {
-		document.addEventListener('DOMContentLoaded', () => {
-			setTimeout(() => {
-				init();
-				// Iniciar el temporizador de inactividad después de la inicialización
-				resetInactivityTimer();
-			}, 100);
-		});
-	} else {
-		setTimeout(() => {
-			init();
+		document.addEventListener('DOMContentLoaded', async () => {
+			await init();
 			// Iniciar el temporizador de inactividad después de la inicialización
 			resetInactivityTimer();
-		}, 100);
+		});
+	} else {
+		// DOM ya está listo
+		(async () => {
+			await init();
+			// Iniciar el temporizador de inactividad después de la inicialización
+			resetInactivityTimer();
+		})();
 	}
 </script>
 

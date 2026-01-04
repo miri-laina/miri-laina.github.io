@@ -1,0 +1,38 @@
+---
+interface Props {
+	src: string;
+	alt: string;
+	class?: string;
+	width?: number;
+	height?: number;
+	loading?: 'lazy' | 'eager';
+	format?: 'webp' | 'avif' | 'png' | 'jpg';
+	quality?: number;
+}
+
+const { 
+	src, 
+	alt, 
+	class: className = '', 
+	width, 
+	height,
+	loading = 'lazy',
+	format,
+	quality = 80
+} = Astro.props;
+
+// Determinar fetchpriority basado en loading
+const fetchPriority = loading === 'eager' ? 'high' : 'low';
+---
+
+<img 
+	src={src} 
+	alt={alt} 
+	class={className}
+	loading={loading}
+	decoding="async"
+	fetchpriority={fetchPriority}
+	{...(width && { width })}
+	{...(height && { height })}
+/>
+

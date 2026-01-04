@@ -330,19 +330,19 @@ function parseBoldText(text: string) {
 				{contentImages && contentImages.length >= 2 ? (
 					<div class="w-full max-w-[1500px] flex flex-col md:flex-row gap-4 md:gap-[48px]">
 						<div class="flex-1 rounded-xl bg-tertiary-100">
-							<img src={contentImages[0]} alt={`${title} content 1`} class="w-full h-full object-cover rounded-xl" />
+							<img src={contentImages[0]} alt={`${title} content 1`} class="w-full h-full object-cover rounded-xl" loading="lazy" decoding="async" />
 						</div>
 						<div class="flex-1 rounded-xl bg-tertiary-100">
-							<img src={contentImages[1]} alt={`${title} content 2`} class="w-full h-full object-cover rounded-xl" />
+							<img src={contentImages[1]} alt={`${title} content 2`} class="w-full h-full object-cover rounded-xl" loading="lazy" decoding="async" />
 						</div>
 					</div>
 				) : contentImages && contentImages.length === 1 ? (
 					<div class="w-full max-w-[1500px] flex flex-col md:flex-row gap-4 md:gap-[48px]">
 						<div class="flex-1 rounded-xl bg-tertiary-100">
-							<img src={contentImages[0]} alt={`${title} content 1`} class="w-full h-full object-cover rounded-xl" />
+							<img src={contentImages[0]} alt={`${title} content 1`} class="w-full h-full object-cover rounded-xl" loading="lazy" decoding="async" />
 						</div>
 						<div class="flex-1 rounded-xl bg-tertiary-100">
-							<img src={contentImages[0]} alt={`${title} content 2`} class="w-full h-full object-cover rounded-xl" />
+							<img src={contentImages[0]} alt={`${title} content 2`} class="w-full h-full object-cover rounded-xl" loading="lazy" decoding="async" />
 						</div>
 					</div>
 				) : null}
@@ -376,7 +376,7 @@ function parseBoldText(text: string) {
 				</div>
 				<div class="flex-1  rounded-xl">
 					{learningsImage ? (
-						<img src={learningsImage} alt={`${title} learnings`} class="w-full h-full object-cover rounded-xl" />
+						<img src={learningsImage} alt={`${title} learnings`} class="w-full h-full object-cover rounded-xl" loading="lazy" decoding="async" />
 					) : (
 						<div class="w-full h-full bg-secondary-300 rounded-xl"></div>
 					)}
