@@ -26,12 +26,15 @@ const sideProjects = projects.filter(p => p.isSideProject);
 	<body class="bg-primary min-h-screen flex flex-col">
 		<!-- Mobile Design (visible solo en mobile) -->
 		<div class="md:hidden bg-white w-full min-h-screen flex flex-col">
-				<!-- Header Mobile -->
-				<nav class="bg-white flex h-12 items-center justify-between px-4 py-2 sticky top-0 w-full z-50">
-					<div class="h-6 w-9 relative">
-						<img src="/favicon.svg" alt="Miriam Laina" class="h-full w-auto" loading="eager" fetchpriority="high" />
-					</div>
-				</nav>
+			<!-- Header Mobile -->
+			<nav class="bg-white flex h-12 items-center justify-between px-4 py-2 sticky top-0 w-full z-50">
+				<div class="h-6 w-9 relative">
+					<img src="/favicon.svg" alt="Miriam Laina" class="h-full w-auto" loading="eager" fetchpriority="high" />
+				</div>
+				<a href="/cv-mlaina.pdf" download class="text-secondary font-body font-semibold text-base hover:opacity-70 transition-opacity">
+					CV
+				</a>
+			</nav>
 				
 				<!-- Hero Mobile -->
 				<header class="flex flex-col items-start px-4 py-12 w-full">
